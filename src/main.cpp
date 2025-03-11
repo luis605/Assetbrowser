@@ -82,6 +82,12 @@ void render_item_preview()
 	EndTextureMode();
 }
 
+
+#ifndef _DEBUG
+
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+
+#endif
 int main(void)
 {
 	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
