@@ -192,36 +192,33 @@ int main(void)
 		ImGui::Begin("Folder Preview");
 		ImGui::Text("Folder Preview for: %s", currentDir.filename().string().c_str());
 
-		int itemSize = 64 + 26;
 		int currX = 0;
-		int maxWidth = ImGui::GetContentRegionAvail().x - 20;
+		int availableWidth = static_cast<int>(ImGui::GetContentRegionAvail().x);
 
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 8));
 		for (int i = 0; i < folderPreviewItems.size(); i++)
 		{
 			auto& item = folderPreviewItems[i];
-
 			auto& path = std::get<0>(item);
 			auto& texture = std::get<1>(item);
-
 			auto name = fs::path(path).filename().string();
 
-			if (rlImGuiImageButton(name.c_str(), &texture))
+			if (rlImGuiImageButtonSize(name.c_str(), &texture, Vector2(64, 64)))
 			{
 				on_file_select(fs::path(path));
 			}
-			currX += itemSize;
-			if (currX >= maxWidth)
+
+			currX += 72 + 8;
+
+			if (currX + 72 > availableWidth)
 			{
 				currX = 0;
-				ImGui::NewLine();
 			} else
 			{
 				ImGui::SameLine();
 			}
-
-
-
 		}
+		ImGui::PopStyleVar();
 
 		ImGui::End();
 
