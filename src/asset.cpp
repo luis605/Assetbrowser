@@ -11,27 +11,27 @@ ImGuiIO* io;
 
 void Init()
 {
-	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
-	SetWindowState(FLAG_WINDOW_RESIZABLE);
-	SetTargetFPS(-1);
-	rlImGuiSetup(true);
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
+    SetWindowState(FLAG_WINDOW_RESIZABLE);
+    SetTargetFPS(-1);
+    rlImGuiSetup(true);
 
     itemPreviewTexture = LoadRenderTexture(256, 256);
-	itemPreviewCamera.position = Vector3{ 0.0f, 6.0f, 6.0f };
-	itemPreviewCamera.target = Vector3{ 0.0f, 0.0f, 0.0f };
-	itemPreviewCamera.up = Vector3{ 0.0f, -1.0f, 0.0f };
-	itemPreviewCamera.fovy = 45.0f;
-	itemPreviewCamera.projection = CAMERA_PERSPECTIVE;
+    itemPreviewCamera.position = Vector3{ 0.0f, 6.0f, 6.0f };
+    itemPreviewCamera.target = Vector3{ 0.0f, 0.0f, 0.0f };
+    itemPreviewCamera.up = Vector3{ 0.0f, -1.0f, 0.0f };
+    itemPreviewCamera.fovy = 45.0f;
+    itemPreviewCamera.projection = CAMERA_PERSPECTIVE;
 
-	folderPreviewCamera.position = Vector3{ 0.0f, 6.0f, 6.0f };
-	folderPreviewCamera.target = Vector3{ 0.0f, 0.0f, 0.0f };
-	folderPreviewCamera.up = Vector3{ 0.0f, -1.0f, 0.0f };
-	folderPreviewCamera.fovy = 45.0f;
-	folderPreviewCamera.projection = CAMERA_PERSPECTIVE;
+    folderPreviewCamera.position = Vector3{ 0.0f, 6.0f, 6.0f };
+    folderPreviewCamera.target = Vector3{ 0.0f, 0.0f, 0.0f };
+    folderPreviewCamera.up = Vector3{ 0.0f, -1.0f, 0.0f };
+    folderPreviewCamera.fovy = 45.0f;
+    folderPreviewCamera.projection = CAMERA_PERSPECTIVE;
 
-	// Enable docking in ImGui
-	io = &ImGui::GetIO();
-	io->ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    // Enable docking in ImGui
+    io = &ImGui::GetIO();
+    io->ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     // Set up initial directory
     currentDir = fs::path("assets/");
@@ -237,28 +237,27 @@ void FileBrowser()
 
 void Render()
 {
-	while (!WindowShouldClose())
-	{
-		BeginDrawing();
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
 
-		ClearBackground(BLACK);
-		rlImGuiBegin();
+        ClearBackground(BLACK);
+        rlImGuiBegin();
 
         Dock();
         AssetViewer();
         PreviewFolder();
         FileBrowser();
 
-		rlImGuiEnd();
-		EndDrawing();
-	}
-
+        rlImGuiEnd();
+        EndDrawing();
+    }
 }
 
 void Close()
 {
-	rlImGuiShutdown();
-	CloseWindow();
+    rlImGuiShutdown();
+    CloseWindow();
 }
 
 
@@ -268,6 +267,7 @@ void on_folder_change(const fs::path& path)
     {
         UnloadTexture(std::get<1>(item));
     }
+
     folderPreviewItems.clear();
 
     currentDir = path;
@@ -308,13 +308,13 @@ void on_file_select(const fs::path& path)
 
 void render_item_preview()
 {
-	if (GetMouseWheelMove() == 0 || ImGui::IsWindowHovered())
-		UpdateCamera(&itemPreviewCamera, CAMERA_ORBITAL);
+    if (GetMouseWheelMove() == 0 || ImGui::IsWindowHovered())
+        UpdateCamera(&itemPreviewCamera, CAMERA_ORBITAL);
 
-	BeginTextureMode(itemPreviewTexture);
-	ClearBackground(Color(0,0,0,0));
-	BeginMode3D(itemPreviewCamera);
-    	DrawModel(itemPreviewModel, Vector3{ 0.0f, 0.0f, 0.0f }, 1.0f, WHITE);
-	EndMode3D();
-	EndTextureMode();
+    BeginTextureMode(itemPreviewTexture);
+    ClearBackground(Color(0,0,0,0));
+    BeginMode3D(itemPreviewCamera);
+        DrawModel(itemPreviewModel, Vector3{ 0.0f, 0.0f, 0.0f }, 1.0f, WHITE);
+    EndMode3D();
+    EndTextureMode();
 }
