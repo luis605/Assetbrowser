@@ -7,6 +7,6 @@ This is a template for using [Raylib](https://www.raylib.com/) and [Imgui](https
 1. Clone the repository
 2. Run ``cmake -B ./build .`` in the root directory
 3. Run ``cmake --build ./build`` in the root directory
-4. Run the executable in the build directory
+4. Run ``make run`` in the build directory
 
 This will automatically download the required dependencies from git and build the project.
